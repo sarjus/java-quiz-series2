@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Java If-Else Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+      margin: auto;
+      max-width: 750px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .question {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    button {
+      display: block;
+      margin-top: 10px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      background: #3498db;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button.correct {
+      background: #2ecc71;
+    }
+    button.wrong {
+      background: #e74c3c;
+    }
+    button:disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+    pre {
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    #result {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #dff9fb;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    #result h2 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+    #retryBtn {
+      background: #f39c12;
+      margin-top: 15px;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Java Code Quest: If-Else Challenge</h1>
+
+  <div id="quiz"></div>
+
+  <!-- Score Result -->
+  <div id="result">
+    <h2>Your Score: <span id="score">0</span>/<span id="total">0</span></h2>
+    <p>Well done! You can try again to improve your score.</p>
+    <button id="retryBtn">🔁 Try Again</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Designed and Developed by: Prof. Sarju S, Dept. of CSE, St. Joseph's College of Engineering and Technology, Palai (Autonomous)</p>
+  </footer>
+
+  <script>
+    const allQuestions = [
+      {
+        title: " OOP Concepts - Encapsulation",
+        code: "",
+        question: "What is encapsulation in Java?",
+        options: [
+          "The ability to inherit classes",
+          "Hiding data and providing access through methods",
+          "Writing multiple constructors",
+          "Declaring variables"
+        ],
+        answer: 1
+      },
+      {
+        title: " OOP Concepts - Object Creation",
+        code: "",
+        question: "Which keyword is used to create an object in Java?",
+        options: [
+          "class",
+          "interface",
+          "new",
+          "object"
+        ],
+        answer: 2
+      },
+      {
+        title: " OOP Concepts - Constructor Use",
+        code: "",
+        question: "Which method is called automatically when an object is created?",
+        options: [
+          "init()",
+          "constructor",
+          "finalize()",
+          "start()"
+        ],
+        answer: 1
+      },
+      {
+        title: " OOP Concepts - Method Overloading",
+        code: "",
+        question: "What is method overloading?",
+        options: [
+          "Defining multiple methods with same name but different parameters",
+          "Using superclass method in subclass",
+          "Changing return type",
+          "None of the above"
+        ],
+        answer: 0
+      },
+      {
+        title: " OOP Concepts - 'this' Keyword",
+        code: "",
+        question: "Which keyword refers to the current object in Java?",
+        options: [
+          "this",
+          "super",
+          "static",
+          "new"
+        ],
+        answer: 0
+      },
+      {
+        title: " OOP Concepts - Inheritance",
+        code: "",
+        question: "What does inheritance support?",
+        options: [
+          "Encapsulation",
+          "Data hiding",
+          "Reusability of code through parent-child relationship",
+          "Object creation"
+        ],
+        answer: 2
+      },
+      {
+        title: " OOP Concepts - Constructor Overloading",
+        code: "",
+        question: "What is constructor overloading in Java?",
+        options: [
+          "Using multiple classes with the same name",
+          "Writing multiple constructors with different parameter lists",
+          "Using constructors in child classes only",
+          "None of the above"
+        ],
+        answer: 1
+      },
+      {
+        title: " OOP Concepts - Access Modifiers",
+        code: "",
+        question: "Which of these is not a valid access modifier in Java?",
+        options: [
+          "private",
+          "protected",
+          "friendly",
+          "public"
+        ],
+        answer: 2
+      },
+      {
+        title: " OOP Concepts - Polymorphism",
+        code: "",
+        question: "What does polymorphism allow in Java?",
+        options: [
+          "Compile time error handling",
+          "Method overloading and overriding",
+          "Multiple inheritance through classes",
+          "None of the above"
+        ],
+        answer: 1
+      },
+      {
+        title: " OOP Concepts - Object Reference",
+        code: "",
+        question: "What is an object reference in Java?",
+        options: [
+          "A class object",
+          "A copy of another object",
+          "A variable that stores the memory address of an object",
+          "A method parameter"
+        ],
+        answer: 2
+      }
+    ];
+
+    
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function numberToEmoji(n) {
+      const emojis = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"];
+      return emojis[n] || n;
+    }
+
+    let selectedQuestions = [...allQuestions];
+    shuffle(selectedQuestions);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    let questionCount = 6; // Change this to the number of questions you want to display
+    document.getElementById("total").textContent = questionCount;
+    if (selectedQuestions.length > questionCount) {
+        selectedQuestions = selectedQuestions.slice(0, questionCount); 
+    }
+
+    const quizContainer = document.getElementById("quiz");
+    let totalScore = 0;
+    let answeredCount = 0;
+
+    selectedQuestions.forEach((q, index) => {
+      const qBox = document.createElement("div");
+      qBox.className = "question";
+
+      const title = document.createElement("p");
+      title.innerHTML = `<strong>${numberToEmoji(index + 1)} ${q.title}</strong>`;
+      qBox.appendChild(title);
+
+      if (q.code) {
+        const pre = document.createElement("pre");
+        pre.textContent = q.code;
+        qBox.appendChild(pre);
+      }
+
+      const qText = document.createElement("p");
+      qText.textContent = q.question;
+      qBox.appendChild(qText);
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = `${String.fromCharCode(65 + i)}) ${opt}`;
+        btn.addEventListener("click", () => {
+          if ([...qBox.querySelectorAll("button")].some(b => b.disabled)) return;
+
+          answeredCount++;
+
+          if (i === q.answer) {
+            btn.classList.add("correct");
+            totalScore++;
+          } else {
+            btn.classList.add("wrong");
+            qBox.querySelectorAll("button")[q.answer].classList.add("correct");
+          }
+
+          qBox.querySelectorAll("button").forEach(b => b.disabled = true);
+
+          if (answeredCount === selectedQuestions.length) {
+            document.getElementById("score").textContent = totalScore;
+            document.getElementById("result").style.display = "block";
+          }
+        });
+        qBox.appendChild(btn);
+      });
+
+      quizContainer.appendChild(qBox);
+    });
+
+    document.getElementById("retryBtn").addEventListener("click", () => {
+      location.reload();
+    });
+  </script>
+
+</body>
+</html>
